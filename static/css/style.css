@@ -166,4 +166,43 @@ body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+  /* Responsive Design */
+@media (max-width: 600px) {
+    .header h1 {
+      font-size: 2rem;
+    }
+  
+    .team-info {
+      font-size: 0.9rem;
+    }
+  
+    .search-form {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .search-form input[type="text"], 
+    .search-form button {
+      width: 100%;
+      max-width: 350px;
+      font-size: 1rem;
+    }
+  
+    .location-card, .error-card {
+      width: 100%;
+      padding: 20px 15px;
+    }
+  
+    .maps-button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+    }
+  
+    footer {
+      font-size: 0.75rem;
+    }
+  }
+  
   
