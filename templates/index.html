@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet"> -->
+</head>
+<body>
+<form action="/geocode" method="POST">
+    <input type="text" name="location" placeholder="Masukkan lokasi (contoh: Jakarta)" required>
+    <button type="submit">Cari Koordinat</button>
+  </form>
+  
+  {% if lat and lng %}
+  <div class="location-card">
+    <h2>Lokasi Ditemukan 🎯</h2>
+    <p><strong>Lokasi:</strong> {{ location }}</p>
+    <p><strong>Latitude:</strong> {{ lat }}</p>
+    <p><strong>Longitude:</strong> {{ lng }}</p>
+    <p>
+      <a class="maps-button" href="https://www.google.com/maps?q={{ lat }},{{ lng }}" target="_blank">
+        📍 Lihat di Google Maps
+      </a>
+    </p>
+  </div>
+  {% elif error %}
+    <div class="error-card">
+      <p>{{ error }}</p>
+    </div>
+  {% endif %}
