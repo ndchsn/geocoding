@@ -4,33 +4,48 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")  # Set di Cloud Run atau .env
+# Gunakan API Key dari environment (di Cloud Run atau lokal .env)
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY") # or 'ISI_API_KEY_KAMU'
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', GOOGLE_API_KEY=GOOGLE_API_KEY)
 
 @app.route('/geocode', methods=['POST'])
 def geocode():
     location = request.form.get('location')
+    if not location:
+        return render_template('index.html', error="Lokasi tidak boleh kosong.", GOOGLE_API_KEY=GOOGLE_API_KEY)
+
     url = f'https://maps.googleapis.com/maps/api/geocode/json?address={location}&key={GOOGLE_API_KEY}'
     response = requests.get(url)
     result = response.json()
+
     if result['status'] == 'OK':
         latlng = result['results'][0]['geometry']['location']
         formatted_address = result['results'][0]['formatted_address']
-        return render_template('index.html', lat=latlng['lat'], lng=latlng['lng'], location=location, address=formatted_address)
+        return render_template('index.html', 
+                               lat=latlng['lat'], 
+                               lng=latlng['lng'], 
+                               location=location, 
+                               address=formatted_address,
+                               GOOGLE_API_KEY=GOOGLE_API_KEY)
     else:
-        return render_template('index.html', error="Lokasi tidak ditemukan.")
+        return render_template('index.html', error="Lokasi tidak ditemukan.", GOOGLE_API_KEY=GOOGLE_API_KEY)
 
 @app.route('/reverse_geocode', methods=['POST'])
 def reverse_geocode():
     data = request.json
     lat = data.get('lat')
     lng = data.get('lng')
+
+    if not lat or not lng:
+        return jsonify({'success': False, 'error': 'Latitude dan Longitude wajib diisi.'})
+
     url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{lng}&key={GOOGLE_API_KEY}'
     response = requests.get(url)
     result = response.json()
+
     if result['status'] == 'OK':
         formatted_address = result['results'][0]['formatted_address']
         return jsonify({
