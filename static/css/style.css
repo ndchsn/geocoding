@@ -140,6 +140,15 @@ body {
     100% { opacity: 1; transform: translateY(0); }
   }
   
+  /* Map Container */
+    .map-container iframe {
+        width: 100%;
+        height: 300px;
+        border: none;
+        border-radius: 12px;
+        margin-top: 15px;
+    }
+    
   /* Footer */
   footer {
     background-color: #1f1f1f;
