@@ -64,6 +64,7 @@
     <!-- CARD HASIL DARI TEMUKAN LOKASI -->
     <div id="my-location-card" class="location-card fade-in" style="display: none;">
       <h2>Lokasi Anda Saat Ini 📍</h2>
+      <p id="my-address"></p>
       <p id="my-coordinates"></p>
       <div class="map-container">
         <iframe id="my-map"
@@ -106,40 +107,39 @@
   }
 
   function showMyPosition(position) {
-    const lat = position.coords.latitude;
-    const lng = position.coords.longitude;
-    const embedApiKey = "{{ GOOGLE_API_KEY }}"; // Ambil dari server (lebih aman)
+  const lat = position.coords.latitude;
+  const lng = position.coords.longitude;
+  const embedApiKey = "{{ GOOGLE_API_KEY }}"; // Ambil dari server
 
-    // Tampilkan Card
-    document.getElementById('my-location-card').style.display = 'block';
+  // Tampilkan Card
+  document.getElementById('my-location-card').style.display = 'block';
 
-    // Update koordinat
-    document.getElementById('my-coordinates').innerHTML = `Latitude: ${lat} <br> Longitude: ${lng}`;
-
-    // Update iframe src
-    document.getElementById('my-map').src = `https://www.google.com/maps/embed/v1/view?key=${embedApiKey}&center=${lat},${lng}&zoom=16&maptype=roadmap`;
-
-    // Update link ke Google Maps
-    document.getElementById('my-maps-link').href = `https://www.google.com/maps?q=${lat},${lng}`;
-  }
-
-  function showError(error) {
-    switch(error.code) {
-      case error.PERMISSION_DENIED:
-        alert("Izin lokasi ditolak.");
-        break;
-      case error.POSITION_UNAVAILABLE:
-        alert("Informasi lokasi tidak tersedia.");
-        break;
-      case error.TIMEOUT:
-        alert("Permintaan lokasi melebihi waktu.");
-        break;
-      case error.UNKNOWN_ERROR:
-        alert("Terjadi kesalahan yang tidak diketahui.");
-        break;
+  // Kirim koordinat ke server untuk mendapatkan alamat lengkap
+  fetch('/reverse_geocode', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ lat: lat, lng: lng })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      // Update alamat
+      document.getElementById('my-address').innerHTML = `<strong>Alamat Lengkap:</strong> ${data.address}`;
+      // Update koordinat
+      document.getElementById('my-coordinates').innerHTML = `<strong>Latitude:</strong> ${lat} <br> <strong>Longitude:</strong> ${lng}`;
+      // Update iframe map
+      document.getElementById('my-map').src = `https://www.google.com/maps/embed/v1/view?key=${embedApiKey}&center=${lat},${lng}&zoom=16&maptype=roadmap`;
+      // Update link ke Google Maps
+      document.getElementById('my-maps-link').href = `https://www.google.com/maps?q=${lat},${lng}`;
+    } else {
+      alert("Alamat tidak ditemukan.");
     }
-  }
-</script>
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert("Gagal mendapatkan alamat lengkap.");
+  });
+}
 
-</body>
-</html>
