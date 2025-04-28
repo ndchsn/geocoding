@@ -1,14 +1,14 @@
 steps:
-  - name: 'gcr.io/cloud-geocoding/docker'
-    args: ['build', '-t', 'asia-southeast2-docker.pkg.dev/mlpt-cloudteam-migration/cloud-run-geocoding/hict-geocoding', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'asia-southeast2-docker.pkg.dev/mlpt-cloudteam-migration/cloud-run-source-deploy/hict-geocoding', '.']
 
-  - name: 'gcr.io/cloud-geocoding/docker'
-    args: ['push', 'asia-southeast2-docker.pkg.dev/mlpt-cloudteam-migration/cloud-run-geocoding/hict-geocoding']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'asia-southeast2-docker.pkg.dev/mlpt-cloudteam-migration/cloud-run-source-deploy/hict-geocoding']
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     args: [
       'gcloud', 'run', 'deploy', 'hict-geocoding',
-      '--image', 'asia-southeast2-docker.pkg.dev/mlpt-cloudteam-migration/cloud-run-geocoding/hict-geocoding',
+      '--image', 'asia-southeast2-docker.pkg.dev/mlpt-cloudteam-migration/cloud-run-source-deploy/hict-geocoding',
       '--region', 'asia-southeast2',
       '--platform', 'managed',
       '--allow-unauthenticated',
@@ -16,4 +16,4 @@ steps:
     ]
 
 images:
-  - 'asia-southeast2-docker.pkg.dev/mlpt-cloudteam-migration/cloud-run-geocoding/hict-geocoding'
+  - 'asia-southeast2-docker.pkg.dev/mlpt-cloudteam-migration/cloud-run-source-deploy/hict-geocoding'
