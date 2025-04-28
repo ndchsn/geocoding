@@ -8,56 +8,51 @@
 </head>
 <body>
 
-    <div class="container">
-        <div class="header">
-          <h1>🌎 Cari Lokasi di Google Maps</h1>
-          <div class="team-info">
-            <span>By <a href="#" target="_blank" class="team-link">HICT Team</a></span>
-            <br>
-            <small><a href="https://cicdtes-169926749078.asia-southeast2.run.app/" target="_blank" class="view-team">Lihat Tim Kami →</a></small>
-          </div>
-        </div>
-      
-        <form action="/geocode" method="POST" class="search-form">
-          <input type="text" name="location" placeholder="Masukkan nama lokasi (cth: Sopodel Tower)" required>
-          <button type="submit">Cari</button>
-        </form>
-    </div>
-      
+  <div class="container">
+    <header class="header">
+      <h1>🌎 Cari Lokasi di Google Maps</h1>
+      <div class="team-info">
+        <span>By <a href="#" target="_blank" class="team-link">HICT Team</a></span>
+        <br>
+        <small><a href="https://cicdtes-169926749078.asia-southeast2.run.app/" target="_blank" class="view-team">Lihat Tim Kami →</a></small>
+      </div>
+    </header>
 
-  {% if lat and lng %}
-  <div class="location-card fade-in">
-    <h2>Lokasi Ditemukan 🎯</h2>
-    <p><strong>Lokasi:</strong> {{ location }}</p>
-    <p><strong>Latitude:</strong> {{ lat }}</p>
-    <p><strong>Longitude:</strong> {{ lng }}</p>
-    <p>
+    <form action="/geocode" method="POST" class="search-form">
+      <input type="text" name="location" placeholder="Masukkan nama lokasi (cth: Sopodel Tower)" required>
+      <button type="submit">Cari</button>
+    </form>
+
+    {% if lat and lng %}
+    <div class="location-card fade-in">
+      <h2>Lokasi Ditemukan 🎯</h2>
+      <p><strong>Lokasi:</strong> {{ location }}</p>
+      <p><strong>Latitude:</strong> {{ lat }}</p>
+      <p><strong>Longitude:</strong> {{ lng }}</p>
       <a class="maps-button" href="https://www.google.com/maps?q={{ lat }},{{ lng }}" target="_blank">
         📍 Lihat di Google Maps
       </a>
-    </p>
+    </div>
+    {% elif error %}
+    <div class="error-card fade-in">
+      <p>{{ error }}</p>
+    </div>
+    {% endif %}
   </div>
-  {% elif error %}
-  <div class="error-card fade-in">
-    <p>{{ error }}</p>
-  </div>
-  {% endif %}
 
-</div>
+  <footer>
+    🚀 Dibuat dengan semangat oleh Tim Cloud Multipolar ~ 2025 ✨
+  </footer>
 
-<footer>
-  🚀 Dibuat dengan semangat oleh Tim Cloud Multipolar ~ 2025 ✨
-</footer>
-
-<script>
+  <script>
     const form = document.querySelector('.search-form');
     const button = form.querySelector('button');
-  
+
     form.addEventListener('submit', () => {
       button.disabled = true;
       button.innerHTML = `<span class="spinner"></span> Mencari...`;
     });
   </script>
-  
+
 </body>
 </html>
