@@ -1,4 +1,220 @@
-/* Temukan Lokasi Saya */
+/* Global */
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* Container */
+  .container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  /* Header */
+  .header {
+    margin-bottom: 30px;
+  }
+  
+  .header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #ffffff;
+  }
+  
+  /* Team Info */
+  .team-info {
+    margin-top: 5px;
+    font-size: 1rem;
+    color: #ccc;
+  }
+  
+  .team-link {
+    color: #4fc3f7;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .team-link:hover {
+    text-decoration: underline;
+  }
+  
+  .view-team {
+    display: inline-block;
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #81d4fa;
+    text-decoration: none;
+  }
+  
+  .view-team:hover {
+    text-decoration: underline;
+  }
+  
+  /* Form */
+  .search-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 40px;
+    justify-content: center;
+  }
+  
+  .search-form input[type="text"] {
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    width: 280px;
+    font-size: 1rem;
+  }
+  
+  .search-form button {
+    background-color: #4285F4;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .search-form button:hover {
+    background-color: #3367D6;
+  }
+  
+  /* Location Card */
+  .location-card, .error-card {
+    background-color: #1f1f1f;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+  }
+  
+  .location-card h2 {
+    margin-bottom: 15px;
+  }
+  
+  .maps-button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #34A853;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .maps-button:hover {
+    background-color: #2c8e48;
+  }
+  
+  /* Error Card */
+  .error-card {
+    background-color: #ff4c4c;
+    color: #fff;
+  }
+  
+  /* Animasi */
+  .fade-in {
+    animation: fadeIn 0.8s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Map Container */
+    .map-container iframe {
+        width: 100%;
+        height: 300px;
+        border: none;
+        border-radius: 12px;
+        margin-top: 15px;
+    }
+    
+  /* Footer */
+  footer {
+    background-color: #1f1f1f;
+    color: #888;
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 12px 20px;
+  }
+  
+  /* Spinner Loading */
+  .spinner {
+    border: 3px solid #ffffff;
+    border-top: 3px solid transparent;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Responsive Design */
+@media (max-width: 600px) {
+    .header h1 {
+      font-size: 2rem;
+    }
+  
+    .team-info {
+      font-size: 0.9rem;
+    }
+  
+    .search-form {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .search-form input[type="text"], 
+    .search-form button {
+      width: 100%;
+      max-width: 350px;
+      font-size: 1rem;
+    }
+  
+    .location-card, .error-card {
+      width: 100%;
+      padding: 20px 15px;
+    }
+  
+    .maps-button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+    }
+  
+    footer {
+      font-size: 0.75rem;
+    }
+  }
+  
+  /* Temukan Lokasi Saya */
 .find-me-section {
     margin-top: 20px;
 }
@@ -18,3 +234,4 @@
 .find-me-button:hover {
     background-color: #f57f17;
 }
+  
