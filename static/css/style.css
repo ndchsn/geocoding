@@ -1,29 +1,16 @@
-/* Tombol/link ke Google Maps */
-.maps-button {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #4285F4; /* warna biru Google */
-    color: #fff;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s;
+/* Animasi fade-in */
+.fade-in {
+    animation: fadeIn 0.8s ease-in-out;
   }
   
-  .maps-button:hover {
-    background-color: #3367D6; /* warna hover */
-  }
-  
-  /* Untuk error message */
-  .error-card {
-    background-color: #ffe6e6;
-    padding: 15px;
-    margin-top: 20px;
-    border: 1px solid #ff9999;
-    border-radius: 10px;
-    text-align: center;
-    color: #cc0000;
-    font-weight: bold;
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   
