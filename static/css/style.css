@@ -15,12 +15,54 @@ body {
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
+    text-align: center;
   }
   
+  .header {
+    margin-bottom: 30px;
+  }
+
   h1 {
     margin-bottom: 20px;
     font-size: 2rem;
     color: #ffffff;
+  }
+
+  /* H1 Title */
+.header h1 {
+    font-size: 2.5rem;
+    color: #fff;
+  }
+  
+  /* Team Info */
+  .team-info {
+    margin-top: 10px;
+    color: #ccc;
+    font-size: 1rem;
+  }
+  
+  /* Link ke website */
+  .team-link {
+    color: #4fc3f7;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .team-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Link ke view team */
+  .view-team {
+    display: inline-block;
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #81d4fa;
+    text-decoration: none;
+  }
+  
+  .view-team:hover {
+    text-decoration: underline;
   }
   
   .search-form {

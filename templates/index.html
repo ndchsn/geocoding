@@ -8,14 +8,22 @@
 </head>
 <body>
 
-<div class="container">
-  <h1>🌎 Cari Lokasi di Google Maps</h1>
-  <h5>By HICT Team</h5>
-
-  <form action="/geocode" method="POST" class="search-form">
-    <input type="text" name="location" placeholder="Masukkan nama lokasi (cth: Sopodel Tower)" required>
-    <button type="submit">Cari</button>
-  </form>
+    <div class="container">
+        <div class="header">
+          <h1>🌎 Cari Lokasi di Google Maps</h1>
+          <div class="team-info">
+            <span>By <a href="#" target="_blank" class="team-link">HICT Team</a></span>
+            <br>
+            <small><a href="#" target="_blank" class="view-team">Lihat Tim Kami →</a></small>
+          </div>
+        </div>
+      
+        <form action="/geocode" method="POST" class="search-form">
+          <input type="text" name="location" placeholder="Masukkan nama lokasi (cth: Sopodel Tower)" required>
+          <button type="submit">Cari</button>
+        </form>
+    </div>
+      
 
   {% if lat and lng %}
   <div class="location-card fade-in">
