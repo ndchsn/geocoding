@@ -1,39 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Geocode Lokasi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Geocoding Finder</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <div class="container">
-    <h1>Cari Koordinat Lokasi 📍</h1>
-    <form action="/geocode" method="POST" class="search-form">
-      <input type="text" name="location" placeholder="Masukkan lokasi (contoh: Jakarta)" required>
-      <button type="submit">Cari</button>
-    </form>
+<div class="container">
+  <h1>🌎 Cari Lokasi di Google Maps</h1>
 
-    {% if lat and lng %}
-<div class="location-card fade-in">
-  <h2>Lokasi Ditemukan 🎯</h2>
-  <p><strong>Lokasi:</strong> {{ location }}</p>
-  <p><strong>Latitude:</strong> {{ lat }}</p>
-  <p><strong>Longitude:</strong> {{ lng }}</p>
-  <p>
-    <a class="maps-button" href="https://www.google.com/maps?q={{ lat }},{{ lng }}" target="_blank">
-      📍 Lihat di Google Maps
-    </a>
-  </p>
+  <form action="/geocode" method="POST" class="search-form">
+    <input type="text" name="location" placeholder="Masukkan nama lokasi (cth: Wisma Mandiri 2)" required>
+    <button type="submit">Cari</button>
+  </form>
+
+  {% if lat and lng %}
+  <div class="location-card fade-in">
+    <h2>Lokasi Ditemukan 🎯</h2>
+    <p><strong>Lokasi:</strong> {{ location }}</p>
+    <p><strong>Latitude:</strong> {{ lat }}</p>
+    <p><strong>Longitude:</strong> {{ lng }}</p>
+    <p>
+      <a class="maps-button" href="https://www.google.com/maps?q={{ lat }},{{ lng }}" target="_blank">
+        📍 Lihat di Google Maps
+      </a>
+    </p>
+  </div>
+  {% elif error %}
+  <div class="error-card fade-in">
+    <p>{{ error }}</p>
+  </div>
+  {% endif %}
+
 </div>
-{% elif error %}
-<div class="error-card fade-in">
-  <p>{{ error }}</p>
-</div>
-{% endif %}
 
+<footer>
+  🚀 Dibuat dengan semangat oleh Kamu ~ 2025 ✨
+</footer>
 
+<script>
+    const form = document.querySelector('.search-form');
+    const button = form.querySelector('button');
+  
+    form.addEventListener('submit', () => {
+      button.disabled = true;
+      button.innerHTML = `<span class="spinner"></span> Mencari...`;
+    });
+  </script>
+  
 </body>
 </html>
