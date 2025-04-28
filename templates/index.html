@@ -18,11 +18,18 @@
       </div>
     </header>
 
+    <!-- FORM CARI MANUAL -->
     <form action="/geocode" method="POST" class="search-form">
       <input type="text" name="location" placeholder="Masukkan nama lokasi (cth: Sopodel Tower)" required>
       <button type="submit">Cari</button>
     </form>
 
+    <!-- TOMBOL TEMUKAN LOKASI SAYA -->
+    <div class="find-me-section">
+      <button onclick="findMyLocation()" class="find-me-button">📍 Temukan Lokasi Saya</button>
+    </div>
+
+    <!-- HASIL LOKASI -->
     {% if lat and lng %}
     <div class="location-card fade-in">
       <h2>Lokasi Ditemukan 🎯</h2>
@@ -36,7 +43,7 @@
           frameborder="0"
           style="border:0; border-radius: 12px; margin-top: 15px;"
           referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps/embed/v1/view?key=AIzaSyA-5lk-kJqUDgv7ROiJq3Fc6Nra5GeVR8E&center={{ lat }},{{ lng }}&zoom=16&maptype=roadmap"
+          src="https://www.google.com/maps/embed/v1/view?key={{ GOOGLE_API_KEY }}&center={{ lat }},{{ lng }}&zoom=16&maptype=roadmap"
           allowfullscreen>
         </iframe>
       </div>
@@ -46,28 +53,92 @@
           📍 Lihat di Google Maps
         </a>
       </p>
-      
     </div>
     {% elif error %}
     <div class="error-card fade-in">
       <p>{{ error }}</p>
     </div>
     {% endif %}
+
+    <!-- CARD HASIL DARI TEMUKAN LOKASI -->
+    <div id="my-location-card" class="location-card fade-in" style="display: none;">
+      <h2>Lokasi Anda Saat Ini 📍</h2>
+      <p id="my-coordinates"></p>
+      <div class="map-container">
+        <iframe id="my-map"
+          width="100%"
+          height="300"
+          frameborder="0"
+          style="border:0; border-radius: 12px; margin-top: 15px;"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <p>
+        <a id="my-maps-link" class="maps-button" href="#" target="_blank">
+          📍 Buka di Google Maps
+        </a>
+      </p>
+    </div>
+
   </div>
 
   <footer>
     🚀 Dibuat dengan semangat oleh Tim Cloud Multipolar ~ 2025 ✨
   </footer>
 
-  <script>
-    const form = document.querySelector('.search-form');
-    const button = form.querySelector('button');
+<script>
+  const form = document.querySelector('.search-form');
+  const button = form.querySelector('button');
 
-    form.addEventListener('submit', () => {
-      button.disabled = true;
-      button.innerHTML = `<span class="spinner"></span> Mencari...`;
-    });
-  </script>
+  form.addEventListener('submit', () => {
+    button.disabled = true;
+    button.innerHTML = `<span class="spinner"></span> Mencari...`;
+  });
+
+  function findMyLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showMyPosition, showError);
+    } else {
+      alert("Browser Anda tidak mendukung Geolocation.");
+    }
+  }
+
+  function showMyPosition(position) {
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+    const embedApiKey = "{{ GOOGLE_API_KEY }}"; // Ambil dari server (lebih aman)
+
+    // Tampilkan Card
+    document.getElementById('my-location-card').style.display = 'block';
+
+    // Update koordinat
+    document.getElementById('my-coordinates').innerHTML = `Latitude: ${lat} <br> Longitude: ${lng}`;
+
+    // Update iframe src
+    document.getElementById('my-map').src = `https://www.google.com/maps/embed/v1/view?key=${embedApiKey}&center=${lat},${lng}&zoom=16&maptype=roadmap`;
+
+    // Update link ke Google Maps
+    document.getElementById('my-maps-link').href = `https://www.google.com/maps?q=${lat},${lng}`;
+  }
+
+  function showError(error) {
+    switch(error.code) {
+      case error.PERMISSION_DENIED:
+        alert("Izin lokasi ditolak.");
+        break;
+      case error.POSITION_UNAVAILABLE:
+        alert("Informasi lokasi tidak tersedia.");
+        break;
+      case error.TIMEOUT:
+        alert("Permintaan lokasi melebihi waktu.");
+        break;
+      case error.UNKNOWN_ERROR:
+        alert("Terjadi kesalahan yang tidak diketahui.");
+        break;
+    }
+  }
+</script>
 
 </body>
 </html>
