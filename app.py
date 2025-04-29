@@ -33,29 +33,48 @@ def geocode():
     else:
         return render_template('index.html', error="Lokasi tidak ditemukan.", GOOGLE_API_KEY=GOOGLE_API_KEY)
 
-@app.route('/reverse_geocode', methods=['POST'])
+
+# @app.route('/reverse_geocode', methods=['POST'])
+# def reverse_geocode():
+#     data = request.json
+#     lat = data.get('lat')
+#     lng = data.get('lng')
+
+#     if not lat or not lng:
+#         return jsonify({'success': False, 'error': 'Latitude dan Longitude wajib diisi.'})
+
+#     url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{lng}&key={GOOGLE_API_KEY}'
+#     response = requests.get(url)
+#     result = response.json()
+
+#     if result['status'] == 'OK':
+#         formatted_address = result['results'][0]['formatted_address']
+#         return jsonify({
+#             'success': True,
+#             'lat': lat,
+#             'lng': lng,
+#             'address': formatted_address
+#         })
+#     else:
+#         return jsonify({'success': False, 'error': 'Lokasi tidak ditemukan.'})
+
+@app.route('/reverse-geocode', methods=['POST'])
 def reverse_geocode():
-    data = request.json
-    lat = data.get('lat')
-    lng = data.get('lng')
+    lat = request.form.get('lat')
+    lng = request.form.get('lng')
 
-    if not lat or not lng:
-        return jsonify({'success': False, 'error': 'Latitude dan Longitude wajib diisi.'})
+    api_key = os.environ.get('GOOGLE_API_KEY')  # pastikan diset di Cloud Run atau .env
 
-    url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{lng}&key={GOOGLE_API_KEY}'
+    url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{lng}&key={api_key}'
     response = requests.get(url)
-    result = response.json()
+    data = response.json()
 
-    if result['status'] == 'OK':
-        formatted_address = result['results'][0]['formatted_address']
-        return jsonify({
-            'success': True,
-            'lat': lat,
-            'lng': lng,
-            'address': formatted_address
-        })
+    if data['status'] == 'OK' and len(data['results']) > 0:
+        formatted_address = data['results'][0]['formatted_address']
+        return render_template('index.html', location=formatted_address, lat=lat, lng=lng)
     else:
-        return jsonify({'success': False, 'error': 'Lokasi tidak ditemukan.'})
+        return render_template('index.html', error="Gagal menemukan alamat dari koordinat.")
+
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8080))

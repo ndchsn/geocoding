@@ -24,10 +24,17 @@
       <button type="submit">Cari</button>
     </form>
 
+    <form action="/reverse-geocode" method="POST" id="geolocate-form">
+      <input type="hidden" name="lat" id="lat">
+      <input type="hidden" name="lng" id="lng">
+      <button type="button" onclick="getMyLocation()">📍 Temukan Lokasi Saya</button>
+    </form>
+    
+
     <!-- TOMBOL TEMUKAN LOKASI SAYA -->
-    <div class="find-me-section">
+    <!-- <div class="find-me-section">
       <button onclick="findMyLocation()" class="find-me-button">📍 Temukan Lokasi Saya</button>
-    </div>
+    </div> -->
 
     <!-- HASIL LOKASI -->
     {% if lat and lng %}
@@ -138,6 +145,22 @@
       case error.UNKNOWN_ERROR:
         alert("Terjadi kesalahan yang tidak diketahui.");
         break;
+    }
+  }
+</script>
+
+<script>
+  function getMyLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        document.getElementById('lat').value = position.coords.latitude;
+        document.getElementById('lng').value = position.coords.longitude;
+        document.getElementById('geolocate-form').submit();
+      }, function() {
+        alert('Gagal mendapatkan lokasi.');
+      });
+    } else {
+      alert('Geolocation tidak didukung di browser ini.');
     }
   }
 </script>
